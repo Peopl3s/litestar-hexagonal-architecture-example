@@ -1,0 +1,219 @@
+[project]
+name = "travelexhibition"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13.1"
+dependencies = [
+    "advanced-alchemy>=1.7.0",
+    "alembic>=1.17.0",
+    "asyncpg>=0.30.0",
+    "dishka>=1.7.2",
+    "faststream[kafka]>=0.6.2",
+    "granian>=2.5.5",
+    "litestar>=2.18.0",
+    "litestar-asyncpg>=0.5.0",
+    "pytest>=8.4.2",
+    "pytest-asyncio>=1.2.0",
+    "ruff>=0.12.12",
+    "sphinx>=8.2.3",
+    "sqlalchemy>=2.0.44",
+    "stamina>=25.1.0",
+]
+
+[tool.ruff]
+preview = false
+show-fixes=true
+
+lint.select = [
+    "A",        # flake8-builtins
+    "E",
+    "F",        # Pyflakes
+    "G",        # logging format
+    "N",        # pep8 naming
+    "W",
+    "C4",       # flake8-comprehensions
+    "UP",
+    "T10",      # Checks for the presence of debugger calls and imports.
+    "EM",       # flake8 error message
+    "ANN",      # Missing annotations
+    "ARG",      # Unused arguments
+    "COM",
+    "DTZ",      # flake8-datetimez
+    "ISC",      # String concatenation
+    "ICN",      # flake8 import conventions
+    "T20",      # print pprint
+    "SLF",      # Private member accessed
+    "SIM",      # Simplify
+    "FBT",      # flake8-boolean-trap
+    "FLY",      # static join to f string
+    "C90",
+    "RSE",      # Unnecessary parentheses on raised exception
+    "RUF",
+    "ERA",      # Found commented-out code
+    "PLC",
+    "PLE",
+    "PLR",
+    "PTH",
+    "TRY",
+    "PERF",     # Do not cast an iterable to list before iterating over it
+    "ASYNC",    # flake8-async
+    "I001",     # Import block is un-sorted or un-formatted
+    "E501",
+    "S101",     # Use of assert detected
+    "S102",     # Use of exec detected
+    "S105",     # Possible hardcoded password assigned
+    "S106",     # func arg
+    "S107",     # func default
+    "S108",     # Probable insecure usage of temporary file or directory
+    "S110",     # try-except-pass detected
+    "S112",     # try-except-continue detected
+    "S113",
+    "S307",     # eval() usage
+    "S324",     # hashlib insecure hash function
+    "FIX001",   # Checks for "FIXME" comments.
+    "PGH004",   # Use specific rule codes when using `noqa`
+    "FAST002",  # FastAPI dependency without Annotated
+    "FAST003",
+    "TID252",   # Prefer absolute imports over relative imports from parent modules
+    "FURB132",  # Checks for uses of set.remove that can be replaced with set.discard
+    "FURB136",
+    "FURB177",  # Use Path.cwd() instead Path().resolve()
+    "TC",
+]
+# In preview mode
+#   "FURB131",  # Prefer clear over deleting a full slice
+#   "FURB142",
+#   "FURB145",
+#   "FURB156",
+
+lint.unfixable = [
+    "B",
+    "COM",
+]
+
+lint.extend-ignore = [
+    "C408",
+    "S105",
+    "UP031",    # Use format specifiers instead of percent format
+    "UP040",    # non pep695 type alias
+    "TC006",    # Add quotes to type expression in typing.cast()
+    "TC007",    # Add quotes to type alias
+    "SIM105",
+    "SIM116",
+    "RUF001",
+    "RUF002",
+    "RUF003",
+    "FBT001",
+    "FBT002",
+    "PLR0913",  # Unused self
+    "PLR0917",
+    "PLR6301",  # Too many arguments
+    "ASYNC230",
+
+    "COM812",   # Я бы пересмотрел это правило ± 400 исправлений
+    "S101",     # Я бы пересмотрел это правило
+    "ANN401",   # Я бы пересмотрел это правило
+    "ARG001",   # Я бы пересмотрел это правило
+    "ARG002",   # Я бы пересмотрел это правило
+    "TID252",   # Я бы пересмотрел это правило
+    "PTH118",   # Я бы пересмотрел это правило
+    "PTH122",   # Я бы пересмотрел это правило
+]
+
+src = ["src"]
+target-version = "py313"
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "**/migrations/**",
+    "__init__.py",
+    "apps.py",
+    "**/tests/**",
+    "**/common/**",
+    "alembic",
+]
+
+# Same as Black.
+line-length = 100
+
+[tool.ruff.lint.isort]
+known-first-party = [
+    "api",
+    "config",
+    "domain",
+    "test_domain",
+    "fixtures",
+]
+lines-after-imports = 2
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+exclude = [
+    "alembic/",
+    "migrations/",
+    "__pycache__/",
+    ".venv/",
+    "venv/",
+]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    'if TYPE_CHECKING:',
+    'pragma: no cover',
+    "if __name__ == '__main__':",
+]
+
+[tool.coverage.run]
+omit = ["src/tests/*"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --verbose"
+testpaths = [
+    "src/tests",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning"
+]
+asyncio_mode = "auto"
+
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
