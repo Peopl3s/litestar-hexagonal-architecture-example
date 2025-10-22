@@ -1,4 +1,4 @@
-# :dizzy: Litestar Hexagonal Architecture Project Example
+# :star2: Litestar Hexagonal Architecture Project Example
 
 💫 [Litestar Clean Acrhitecture Project Template](https://github.com/Peopl3s/clean-architecture-litestar-project-template)
 
