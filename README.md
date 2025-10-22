@@ -85,3 +85,15 @@ Thus, in Hexagonal Architecture, traditional **"layers" are replaced by a "core 
 ├── ...
 └── README.md
 ```
+
+## Stack
+* Main framework - Litestar
+* Message broker framework - Faststream
+* DI - dishka
+* Database - SQLAlchemy + alembic
+* Validation - Pydantic 
+* Package manager - uv
+* HTTP-requests - httpx
+* Retries - stamina
+* Deployment - Docker + granian
+* Tests - pytest
