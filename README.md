@@ -1,5 +1,8 @@
 # :dizzy: Litestar Hexagonal Architecture Project Example
 
+💫 Litestar Clean Acrhitecture Project Template - https://github.com/Peopl3s/clean-architecture-litestar-project-template
+🔌 FastAPI Clean Architecture Project Template - https://github.com/Peopl3s/clean-architecture-fastapi-project-template
+
 Hexagonal Architecture, also known as **Ports and Adapters Architecture**, was proposed by Alistair Cockburn as a design approach for building applications centered around a core of business logic that remains independent from external dependencies (such as databases, UIs, external APIs, etc.).
 
 In this architecture, there are **no traditional "layers"** like in layered architectures (e.g., presentation → business → data). Instead, it revolves around an **application core**, surrounded by **ports and adapters**. However, for clarity, we can identify the following **logical components**:
