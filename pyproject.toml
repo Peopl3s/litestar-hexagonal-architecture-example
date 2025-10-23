@@ -11,6 +11,7 @@ dependencies = [
     "dishka>=1.7.2",
     "faststream[kafka]>=0.6.2",
     "granian>=2.5.5",
+    "import-linter>=2.0.0",
     "litestar>=2.18.0",
     "litestar-asyncpg>=0.5.0",
     "pytest>=8.4.2",
@@ -75,6 +76,7 @@ lint.select = [
     "PGH004",   # Use specific rule codes when using `noqa`
     "FAST002",  # FastAPI dependency without Annotated
     "FAST003",
+    "TID251",   # Banned imports
     "TID252",   # Prefer absolute imports over relative imports from parent modules
     "FURB132",  # Checks for uses of set.remove that can be replaced with set.discard
     "FURB136",
@@ -160,13 +162,52 @@ line-length = 100
 
 [tool.ruff.lint.isort]
 known-first-party = [
-    "api",
-    "config",
-    "domain",
-    "test_domain",
-    "fixtures",
+    "travelexhibition",
+]
+known-third-party = [
+    "litestar",
+    "sqlalchemy",
+    "alembic",
+    "asyncpg",
+    "dishka",
+    "faststream",
+    "granian",
+    "pytest",
+    "sphinx",
+    "stamina",
 ]
 lines-after-imports = 2
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
+
+# Hexagonal architecture import rules
+[tool.ruff.lint.per-file-ignores]
+# Core should not import from adapters
+"travelexhibition/core/**/*.py" = [
+    "TID251",  # Disallow imports from banned modules
+]
+# Primary adapters should not import from secondary adapters
+"travelexhibition/adapters/primary/**/*.py" = [
+    "TID251",  # Disallow imports from banned modules
+]
+# Secondary adapters can import from core and ports
+"travelexhibition/adapters/secondary/**/*.py" = [
+    "TID251",  # Disallow imports from banned modules
+]
+
+# Banned imports for hexagonal architecture enforcement
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+# Core should not import from adapters
+"travelexhibition.adapters" = { msg = "Core modules should not import from adapters. Use ports instead." }
+# Primary adapters should not import from secondary adapters
+"travelexhibition.adapters.secondary" = { msg = "Primary adapters should not import from secondary adapters." }
+# No direct imports between different secondary adapter types
+"travelexhibition.adapters.secondary.database" = { msg = "Use ports instead of direct database imports in non-database adapters." }
 
 [tool.mypy]
 python_version = "3.13"
@@ -214,6 +255,50 @@ filterwarnings = [
     "ignore::UserWarning"
 ]
 asyncio_mode = "auto"
+
+[tool.importlinter]
+root_package = "travelexhibition"
+
+[[tool.importlinter.contracts]]
+name = "Hexagonal Architecture - Core Independence"
+type = "forbidden"
+source_modules = ["travelexhibition.core"]
+forbidden_modules = ["travelexhibition.adapters"]
+ignore_imports = [
+    "travelexhibition.core.models -> travelexhibition.core.exceptions",
+]
+
+[[tool.importlinter.contracts]]
+name = "Hexagonal Architecture - Primary Adapters Independence"
+type = "forbidden"
+source_modules = ["travelexhibition.adapters.primary"]
+forbidden_modules = ["travelexhibition.adapters.secondary"]
+
+[[tool.importlinter.contracts]]
+name = "Hexagonal Architecture - Adapter Independence"
+type = "independence"
+modules = [
+    "travelexhibition.adapters.primary",
+    "travelexhibition.adapters.secondary",
+]
+
+[[tool.importlinter.contracts]]
+name = "Hexagonal Architecture - Core Layer Independence"
+type = "independence"
+modules = [
+    "travelexhibition.core",
+    "travelexhibition.adapters",
+]
+
+[[tool.importlinter.contracts]]
+name = "Hexagonal Architecture - Ports as Boundary"
+type = "layers"
+layers = [
+    "travelexhibition.adapters.primary",
+    "travelexhibition.adapters.secondary",
+    "travelexhibition.ports",
+    "travelexhibition.core",
+]
 
 
 [build-system]
