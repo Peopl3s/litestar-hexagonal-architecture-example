@@ -97,7 +97,7 @@ Thus, in Hexagonal Architecture, traditional **"layers" are replaced by a "core 
 * Message broker framework - Faststream
 * DI - dishka
 * Database - SQLAlchemy + alembic
-* Validation - Pydantic 
+* Validation - Pydantic
 * Package manager - uv
 * HTTP-requests - httpx
 * Retries - stamina

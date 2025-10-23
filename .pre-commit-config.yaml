@@ -1,0 +1,51 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: debug-statements
+      - id: mixed-line-ending
+        args: [ '--fix=lf' ]
+        description: Forces to replace line ending by the UNIX 'lf' character.
+      - id: check-merge-conflict
+      - id: check-ast
+
+  - repo: https://github.com/jorisroovers/gitlint
+    rev: v0.19.1
+    hooks:
+      - id: gitlint
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.12.12
+    hooks:
+      - id: ruff
+        args: [ --fix ]
+        pass_filenames: false
+      - id: ruff-format
+        args: [ --config=pyproject.toml ]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
+      - id: mypy
+        exclude: "alembic"
+        args: [--explicit-package-bases, -p, travelexhibition]
+        pass_filenames: false
+        additional_dependencies:
+          - "advanced-alchemy>=1.7.0"
+          - "alembic>=1.17.0"
+          - "asyncpg>=0.30.0"
+          - asyncpg-stubs
+          - "dishka>=1.7.2"
+          - "faststream[kafka]>=0.6.2"
+          - "granian>=2.5.5"
+          - "litestar>=2.18.0"
+          - "litestar-asyncpg>=0.5.0"
+          - "litestar[jinja,jwt,redis,structlog]"
+          - "pytest>=8.4.2"
+          - "pytest-asyncio>=1.2.0"
+          - "sqlalchemy>=2.0.44"
+          - "stamina>=25.1.0"
+          - types-PyYAML
