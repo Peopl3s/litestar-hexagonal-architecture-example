@@ -1,4 +1,4 @@
-from advanced_alchemy.config import AsyncSessionConfig, SQLAlchemyAsyncConfig
+from advanced_alchemy.extensions.litestar import AsyncSessionConfig, SQLAlchemyAsyncConfig
 
 from travelexhibition.config import PostgresConfig
 
