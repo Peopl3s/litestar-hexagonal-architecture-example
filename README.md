@@ -69,7 +69,7 @@ Thus, in Hexagonal Architecture, traditional **"layers" are replaced by a "core 
 │   │   │   ├── __init__.py
 │   │   │   └── api/              # ← Litestar routes
 │   │   │       ├── __init__.py
-│   │   │       ├── routes.py
+│   │   │       ├── controllers.py
 │   │   │       ├── deps.py       # ← Dependencies (adapter injection)
 │   │   │       └── dtos.py       # ← DTOs: request/response models (Pydantic)
 │   │   │

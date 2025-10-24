@@ -283,15 +283,7 @@ modules = [
 ]
 
 [[tool.importlinter.contracts]]
-name = "Hexagonal Architecture - Core Layer Independence"
-type = "independence"
-modules = [
-    "travelexhibition.core",
-    "travelexhibition.adapters",
-]
-
-[[tool.importlinter.contracts]]
-name = "Hexagonal Architecture - Ports as Boundary"
+name = "Hexagonal Architecture - Layering"
 type = "layers"
 layers = [
     "travelexhibition.adapters.primary",
@@ -299,7 +291,6 @@ layers = [
     "travelexhibition.ports",
     "travelexhibition.core",
 ]
-
 
 [build-system]
 requires = ["setuptools", "wheel"]
