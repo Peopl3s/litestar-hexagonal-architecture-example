@@ -28,3 +28,13 @@ class PostgresConfig(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
         extra = "ignore"
+
+
+@final
+class AppConfig(BaseSettings):
+    postgres_config: PostgresConfig = Field(default_factory=PostgresConfig)
+
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+        extra = "ignore"

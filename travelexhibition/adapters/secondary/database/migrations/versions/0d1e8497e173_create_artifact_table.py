@@ -9,6 +9,8 @@ from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
+import advanced_alchemy.types.guid
+import advanced_alchemy.types.datetime
 
 
 # revision identifiers, used by Alembic.
@@ -24,7 +26,7 @@ def upgrade() -> None:
     op.create_table('artifacts',
     sa.Column('title', sa.String(length=255), nullable=False),
     sa.Column('model3d_url', sa.String(), nullable=False),
-    sa.Column('description', sa.Text(length=1000), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
     sa.Column('id', advanced_alchemy.types.guid.GUID(length=16), nullable=False),
     sa.Column('sa_orm_sentinel', sa.Integer(), nullable=True),
     sa.Column('created_at', advanced_alchemy.types.datetime.DateTimeUTC(timezone=True), nullable=False),

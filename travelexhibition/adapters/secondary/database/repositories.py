@@ -5,7 +5,7 @@ from travelexhibition.core.models import Artifact as ArtifactDM
 from travelexhibition.ports.artifact_ports import ArtifactRepositoryPort
 
 
-class UsersRepositoryAdapter(
+class ArtifactRepositoryAdapter(
     ArtifactRepositoryPort, repository.SQLAlchemyAsyncRepository[ArtifactModel]
 ):
     model_type = ArtifactModel

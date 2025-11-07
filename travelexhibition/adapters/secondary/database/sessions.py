@@ -6,8 +6,8 @@ from travelexhibition.config import PostgresConfig
 def get_sqlalchemy_config(psql_config: PostgresConfig) -> SQLAlchemyAsyncConfig:
     return SQLAlchemyAsyncConfig(
         connection_string=(
-            f"{psql_config.postgres_schema}://{psql_config.login}:{psql_config.password}"
-            f"@{psql_config.host}:{psql_config.port}/{psql_config.database}"
+            f"{psql_config.postgres_schema}://{psql_config.postgres_user}:{psql_config.postgres_password}"
+            f"@{psql_config.postgres_server}:{psql_config.postgres_port}/{psql_config.postgres_db}"
         ),
         session_config=AsyncSessionConfig(
             autoflush=False,
