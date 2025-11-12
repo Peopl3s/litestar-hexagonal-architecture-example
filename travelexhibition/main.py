@@ -1,32 +1,33 @@
-from advanced_alchemy.extensions.litestar import SQLAlchemyInitPlugin
-from dishka import make_async_container
-from dishka.integrations.litestar import setup_dishka, LitestarProvider
-from litestar import Litestar, get
-from litestar.logging import LoggingConfig
-from litestar.openapi import OpenAPIConfig
+from dishka import Provider
+from dishka.integrations.litestar import setup_dishka
 
-from travelexhibition.adapters.primary.api.controllers import ArtifactController
-from travelexhibition.adapters.secondary.database.sessions import get_sqlalchemy_config
-from travelexhibition.config import PostgresConfig
-from travelexhibition.ioc import AppProvider
+from litestar import Litestar
 
-logging_config = LoggingConfig(
-    root={"level": "INFO", "handlers": ["queue_listener"]},
-    formatters={
-        "standard": {"format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"}
-    },
-    log_exceptions="always",  # Включить логирование исключений с трассировкой
-)
+from travelexhibition.setup.app_factory import create_web_app, create_ioc_container
+from travelexhibition.setup.config import AppConfig
+from travelexhibition.setup.logging import configure_logging
 
-db_config = PostgresConfig()
 
-container = make_async_container(LitestarProvider(), AppProvider())
+def make_app(
+    *di_providers: Provider,
+    settings: AppConfig | None = None,
+) -> Litestar:
 
-app = Litestar(
-    route_handlers=[ArtifactController],
-    openapi_config=OpenAPIConfig(title="My API", version="1.0.0", path="/api"),
-    plugins=[SQLAlchemyInitPlugin(config=get_sqlalchemy_config(db_config))],
-    logging_config=logging_config,
-)
+    configure_logging()
 
-setup_dishka(container, app)
+    app: Litestar = create_web_app()
+    container = create_ioc_container(settings, *di_providers)
+    setup_dishka(container, app)
+
+    return app
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(
+        app=make_app(),
+        port=8000,
+        reload=False,
+        loop="uvloop",
+    )

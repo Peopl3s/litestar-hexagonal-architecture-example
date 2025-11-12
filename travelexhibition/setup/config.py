@@ -3,6 +3,8 @@ from typing import final
 from pydantic import Field, PostgresDsn, computed_field
 from pydantic_settings import BaseSettings
 
+from travelexhibition.setup.logging import LoggingConfig
+
 
 @final
 class PostgresConfig(BaseSettings):
@@ -25,16 +27,26 @@ class PostgresConfig(BaseSettings):
         )
 
     class Config:
-        env_file = ".env"
+        env_file = "../.env"
         env_file_encoding = "utf-8"
         extra = "ignore"
 
 
 @final
+class SqlEngineConfig(BaseSettings):
+    echo: bool = Field(alias="ECHO", default=True)
+    echo_pool: bool = Field(alias="ECHO_POOL", default=True)
+    pool_size: int = Field(alias="POOL_SIZE", default=10)
+    max_overflow: int = Field(alias="MAX_OVERFLOW", default=10)
+
+
+@final
 class AppConfig(BaseSettings):
     postgres_config: PostgresConfig = Field(default_factory=PostgresConfig)
+    sql_engine_config: SqlEngineConfig = Field(default_factory=SqlEngineConfig)
+    logging_config: LoggingConfig = Field(default_factory=LoggingConfig)
 
     class Config:
-        env_file = ".env"
+        env_file = "../.env"
         env_file_encoding = "utf-8"
         extra = "ignore"

@@ -5,7 +5,7 @@ SHELL := bash
 
 # Запускаем проект
 run:
-	uv run granian --interface asgi travelexhibition/main:app
+	uv run granian --interface asgi travelexhibition/main:make_app --factory
 
 # Запускаем тесты
 test:

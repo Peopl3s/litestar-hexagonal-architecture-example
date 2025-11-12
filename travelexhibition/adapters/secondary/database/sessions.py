@@ -1,6 +1,6 @@
 from advanced_alchemy.extensions.litestar import AsyncSessionConfig, SQLAlchemyAsyncConfig
 
-from travelexhibition.config import PostgresConfig
+from travelexhibition.setup.config import PostgresConfig
 
 
 def get_sqlalchemy_config(psql_config: PostgresConfig) -> SQLAlchemyAsyncConfig:
