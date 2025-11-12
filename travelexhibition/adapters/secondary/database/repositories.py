@@ -14,7 +14,7 @@ class ArtifactRepositoryAdapter(
     model_type = ArtifactModel
 
     async def get_by_id(self, artifact_id: str) -> ArtifactDM:
-        artifact_model = await self.get_one(id=artifact_id)
+        artifact_model = await self.get_one(id=UUID(artifact_id))
         return ArtifactDM(
             id=artifact_model.id,
             title=artifact_model.title,

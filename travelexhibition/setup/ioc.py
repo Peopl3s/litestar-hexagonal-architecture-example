@@ -38,8 +38,8 @@ class ApplicationProvider(Provider):
     def get_artifact_use_case(self, repository: ArtifactRepositoryPort) -> GetArtifactUseCase:
         return GetArtifactUseCase(artifact_gateway=repository)
 
-    @provide(provides=ArtifactRepositoryPort)
-    def get_artifact_repository(self, session: AsyncSession) -> ArtifactRepositoryAdapter:
+    @provide
+    def get_artifact_repository(self, session: AsyncSession) -> ArtifactRepositoryPort:
         return ArtifactRepositoryAdapter(session=session)
 
 
