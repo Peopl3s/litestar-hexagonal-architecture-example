@@ -14,11 +14,9 @@ from travelexhibition.setup.ioc import get_providers
 
 def create_ioc_container(
     settings: AppConfig,
-    *di_providers: Provider,
 ) -> AsyncContainer:
     return make_async_container(
         *get_providers(),
-        *di_providers,
         context={AppConfig: settings},
     )
 
@@ -27,6 +25,7 @@ def create_web_app() -> Litestar:
     app = Litestar(
         route_handlers=[ArtifactController],
         openapi_config=OpenAPIConfig(title="My API", version="1.0.0", path="/api"),
+        lifespan=[lifespan],
     )
     return app
 
