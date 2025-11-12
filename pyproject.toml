@@ -21,6 +21,7 @@ dependencies = [
     "sphinx>=8.2.3",
     "sqlalchemy>=2.0.44",
     "stamina>=25.1.0",
+    "uvicorn>=0.38.0",
 ]
 
 [tool.ruff]

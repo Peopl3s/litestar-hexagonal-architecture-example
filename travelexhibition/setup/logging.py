@@ -34,4 +34,4 @@ def configure_logging(*, level: LoggingLevel = DEFAULT_LOG_LEVEL) -> None:
 
 
 class LoggingConfig(BaseModel):
-    level: LoggingLevel = Field(alias="LEVEL")
+    level: LoggingLevel = Field(alias="LEVEL", default=DEFAULT_LOG_LEVEL)

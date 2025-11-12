@@ -27,7 +27,7 @@ class PostgresConfig(BaseSettings):
         )
 
     class Config:
-        env_file = "../.env"
+        env_file = ".env"
         env_file_encoding = "utf-8"
         extra = "ignore"
 
@@ -47,6 +47,6 @@ class AppConfig(BaseSettings):
     logging_config: LoggingConfig = Field(default_factory=LoggingConfig)
 
     class Config:
-        env_file = "../.env"
+        env_file = ".env"
         env_file_encoding = "utf-8"
         extra = "ignore"

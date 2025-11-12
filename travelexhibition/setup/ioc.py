@@ -34,8 +34,13 @@ class SettingsProvider(Provider):
 class ApplicationProvider(Provider):
     scope = Scope.REQUEST
 
-    get_artifact_use_case = provide_all(GetArtifactUseCase)
-    get_artifact_repository = provide(ArtifactRepositoryAdapter, provides=ArtifactRepositoryPort)
+    @provide
+    def get_artifact_use_case(self, repository: ArtifactRepositoryPort) -> GetArtifactUseCase:
+        return GetArtifactUseCase(artifact_gateway=repository)
+
+    @provide(provides=ArtifactRepositoryPort)
+    def get_artifact_repository(self, session: AsyncSession) -> ArtifactRepositoryAdapter:
+        return ArtifactRepositoryAdapter(session=session)
 
 
 class PersistenceSqlProvider(Provider):
@@ -51,7 +56,7 @@ class PersistenceSqlProvider(Provider):
             echo_pool=sql_engine_config.echo_pool,
             pool_size=sql_engine_config.pool_size,
             max_overflow=sql_engine_config.max_overflow,
-            connect_args={"connect_timeout": 5},
+            connect_args={"command_timeout": 5},
             pool_pre_ping=True,
         )
         log.debug("Async engine created with DSN: %s", postgres_config.database_url)
