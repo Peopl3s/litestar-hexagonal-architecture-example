@@ -1,7 +1,7 @@
 from litestar import Litestar
 from litestar.openapi import OpenAPIConfig
 
-from travelexhibition.adapters.primary.api.controllers import ArtifactController
+from travelexhibition.adapters.primary.api.api_v1_router import create_api_v1_router
 from travelexhibition.setup.config import AppConfig
 
 from collections.abc import AsyncIterator
@@ -23,7 +23,7 @@ def create_ioc_container(
 
 def create_web_app() -> Litestar:
     app = Litestar(
-        route_handlers=[ArtifactController],
+        route_handlers=[create_api_v1_router()],
         openapi_config=OpenAPIConfig(title="My API", version="1.0.0", path="/api"),
         lifespan=[lifespan],
     )

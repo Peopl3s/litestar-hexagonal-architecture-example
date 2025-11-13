@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import final
 
-from travelexhibition.core.models import Artifact
+from travelexhibition.core.models import Artifact as ArtifactDM
 from travelexhibition.ports.artifact_ports import ArtifactRepositoryPort
 
 
@@ -10,5 +10,5 @@ from travelexhibition.ports.artifact_ports import ArtifactRepositoryPort
 class GetArtifactUseCase:
     artifact_gateway: ArtifactRepositoryPort
 
-    async def __call__(self, artifact_id: str) -> Artifact:
+    async def __call__(self, artifact_id: str) -> ArtifactDM:
         return await self.artifact_gateway.get_by_id(artifact_id)
