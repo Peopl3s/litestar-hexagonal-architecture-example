@@ -15,10 +15,15 @@ TITLE_LENGTH_ERROR = "Name must be between 2 and 100 characters"
 DESCRIPTION_LENGTH_ERROR = "Description must be at most 1000 characters"
 
 
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ArtifactID:
+    value: UUID
+
+
 @final
 @dataclass(frozen=True, kw_only=True, slots=True)
 class Artifact:
-    id: UUID
+    id: ArtifactID
     title: str
     model3d_url: str
     description: str | None = None
@@ -31,3 +36,4 @@ class Artifact:
         if self.description is not None and len(self.description) > MAX_DESCRIPTION_LENGTH:
             error_msg = DESCRIPTION_LENGTH_ERROR
             raise DomainValidationError(error_msg)
+

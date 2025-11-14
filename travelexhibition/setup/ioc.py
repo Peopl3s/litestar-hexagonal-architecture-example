@@ -5,6 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine, create_async_engin
 from dishka import Provider, provide, Scope, provide_all, from_context
 
 from travelexhibition.adapters.secondary.database.repositories import ArtifactRepositoryAdapter
+from travelexhibition.adapters.secondary.database.uow import SqlAlchemyUnitOfWork
+from travelexhibition.ports.uow_ports import UnitOfWork
 from travelexhibition.setup.config import PostgresConfig, SqlEngineConfig, AppConfig
 from travelexhibition.core.services import GetArtifactUseCase
 from travelexhibition.setup.logging import LoggingConfig
@@ -41,6 +43,8 @@ class ApplicationProvider(Provider):
     @provide
     def get_artifact_repository(self, session: AsyncSession) -> ArtifactRepositoryPort:
         return ArtifactRepositoryAdapter(session=session)
+
+    tx_manager = provide(SqlAlchemyUnitOfWork, provides=UnitOfWork)
 
 
 class PersistenceSqlProvider(Provider):

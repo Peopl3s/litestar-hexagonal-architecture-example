@@ -9,6 +9,7 @@ from litestar.status_codes import HTTP_400_BAD_REQUEST
 
 from travelexhibition.adapters.primary.api.schemas import ArtifactResponseSchema
 from travelexhibition.adapters.secondary.exceptions import SQLAlchemyReaderError, DataMapperError
+from travelexhibition.core.dtos import GetArtifactDTO
 from travelexhibition.core.services import GetArtifactUseCase
 
 
@@ -40,9 +41,9 @@ class ArtifactController(Controller):
             artifact_id: Annotated[UUID, Parameter(description="Artifact ID", title="Artifact ID")],
             use_case: Depends[GetArtifactUseCase],
     ) -> ArtifactResponseSchema:
-        artifact_dm = await use_case(str(artifact_id))
+        artifact_dm = await use_case(GetArtifactDTO(artifact_id=artifact_id))
         return ArtifactResponseSchema(
-            id=artifact_dm.id,
+            id=artifact_dm.id.value,
             title=artifact_dm.title,
             description=artifact_dm.description,
             model3d_url=artifact_dm.model3d_url
