@@ -1,10 +1,7 @@
-from uuid import UUID
+from litestar.dto import DataclassDTO, DTOConfig
 
-from pydantic import BaseModel
+from travelexhibition.core.models import Artifact
 
 
-class ArtifactResponseSchema(BaseModel):
-    id: UUID
-    title: str
-    model3d_url: str
-    description: str | None = None
+class ArtifactResponseSchema(DataclassDTO[Artifact]):
+    config = DTOConfig()
