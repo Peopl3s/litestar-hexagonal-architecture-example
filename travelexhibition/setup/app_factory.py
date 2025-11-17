@@ -1,5 +1,6 @@
 from litestar import Litestar
 from litestar.openapi import OpenAPIConfig
+from litestar.openapi.plugins import SwaggerRenderPlugin
 
 from travelexhibition.adapters.primary.api.api_v1_router import create_api_v1_router
 from travelexhibition.setup.config import AppConfig
@@ -24,7 +25,12 @@ def create_ioc_container(
 def create_web_app() -> Litestar:
     app = Litestar(
         route_handlers=[create_api_v1_router()],
-        openapi_config=OpenAPIConfig(title="My API", version="1.0.0", path="/api"),
+        openapi_config=OpenAPIConfig(
+            title="My API", 
+            version="1.0.0", 
+            path="/api",
+            render_plugins=[SwaggerRenderPlugin()]
+        ),
         lifespan=[lifespan],
     )
     return app
