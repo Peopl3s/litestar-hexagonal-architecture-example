@@ -4,14 +4,12 @@ from typing import final
 from travelexhibition.core.dtos import GetArtifactDTO
 from travelexhibition.core.models import Artifact as ArtifactDM, ArtifactID
 from travelexhibition.ports.artifact_ports import ArtifactRepositoryPort
-from travelexhibition.ports.uow_ports import UnitOfWork
 
 
 @final
 @dataclass(frozen=True, slots=True, kw_only=True)
-class GetArtifactUseCase:
+class GetArtifactInteractor:
     artifact_gateway: ArtifactRepositoryPort
-    # uow: UnitOfWork
 
     async def __call__(self, request_data: GetArtifactDTO) -> ArtifactDM:
         artifact_id = ArtifactID(value=request_data.artifact_id)

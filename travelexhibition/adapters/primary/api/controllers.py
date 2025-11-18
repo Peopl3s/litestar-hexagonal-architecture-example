@@ -12,7 +12,7 @@ from travelexhibition.adapters.primary.api.schemas import ArtifactResponseSchema
 from travelexhibition.adapters.secondary.exceptions import SQLAlchemyReaderError, DataMapperError
 from travelexhibition.core.dtos import GetArtifactDTO
 from travelexhibition.core.models import Artifact
-from travelexhibition.core.services import GetArtifactUseCase
+from travelexhibition.core.services import GetArtifactInteractor
 
 
 class ArtifactController(Controller):
@@ -43,6 +43,6 @@ class ArtifactController(Controller):
     async def get_artifact(
             self,
             artifact_id: Annotated[UUID, Parameter(description="Artifact ID", title="Artifact ID")],
-            use_case: Depends[GetArtifactUseCase],
+            interactor: Depends[GetArtifactInteractor],
     ) -> Artifact:
-        return await use_case(GetArtifactDTO(artifact_id=artifact_id))
+        return await interactor(GetArtifactDTO(artifact_id=artifact_id))

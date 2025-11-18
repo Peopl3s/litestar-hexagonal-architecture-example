@@ -2,13 +2,13 @@ import logging
 from collections.abc import AsyncIterator, Iterable
 
 from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine, create_async_engine, async_sessionmaker
-from dishka import Provider, provide, Scope, provide_all, from_context
+from dishka import Provider, provide, Scope, from_context
 
 from travelexhibition.adapters.secondary.database.repositories import ArtifactRepositoryAdapter
 from travelexhibition.adapters.secondary.database.uow import SqlAlchemyUnitOfWork
 from travelexhibition.ports.uow_ports import UnitOfWork
 from travelexhibition.setup.config import PostgresConfig, SqlEngineConfig, AppConfig
-from travelexhibition.core.services import GetArtifactUseCase
+from travelexhibition.core.services import GetArtifactInteractor
 from travelexhibition.setup.logging import LoggingConfig
 from travelexhibition.ports.artifact_ports import ArtifactRepositoryPort
 
@@ -37,8 +37,8 @@ class ApplicationProvider(Provider):
     scope = Scope.REQUEST
 
     @provide
-    def get_artifact_use_case(self, repository: ArtifactRepositoryPort) -> GetArtifactUseCase:
-        return GetArtifactUseCase(artifact_gateway=repository)
+    def get_artifact_interactor(self, repository: ArtifactRepositoryPort) -> GetArtifactInteractor:
+        return GetArtifactInteractor(artifact_gateway=repository)
 
     @provide
     def get_artifact_repository(self, session: AsyncSession) -> ArtifactRepositoryPort:
