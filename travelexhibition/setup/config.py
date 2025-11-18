@@ -41,10 +41,24 @@ class SqlEngineConfig(BaseSettings):
 
 
 @final
+class BrokerConfig(BaseSettings):
+    broker_url: str = Field(..., alias="BROKER_URL")
+    broker_new_artifact_queue: str = Field("new_artifacts", alias="BROKER_NEW_ARTIFACT_QUEUE")
+    publish_retries: int = Field(3, alias="PUBLISH_RETRIES")
+    publish_retry_backoff: float = Field(0.5, alias="PUBLISH_RETRY_BACKOFF")
+
+    class Config:
+        env_file = "travelexhibition/.env"
+        env_file_encoding = "utf-8"
+        extra = "ignore"
+
+
+@final
 class AppConfig(BaseSettings):
     postgres_config: PostgresConfig = Field(default_factory=PostgresConfig)
     sql_engine_config: SqlEngineConfig = Field(default_factory=SqlEngineConfig)
     logging_config: LoggingConfig = Field(default_factory=LoggingConfig)
+    broker_config: BrokerConfig = Field(default_factory=BrokerConfig)
 
     class Config:
         env_file = "travelexhibition/.env"
