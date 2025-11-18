@@ -5,8 +5,9 @@ from dishka.integrations.base import FromDishka as Depends
 from dishka.integrations.litestar import inject
 from litestar import Controller, route, HttpMethod, Response
 from litestar.params import Parameter
-from litestar.status_codes import HTTP_400_BAD_REQUEST
+from litestar.status_codes import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_503_SERVICE_UNAVAILABLE
 
+from travelexhibition.adapters.primary.api.errors import log_error
 from travelexhibition.adapters.primary.api.schemas import ArtifactResponseSchema
 from travelexhibition.adapters.secondary.exceptions import SQLAlchemyReaderError, DataMapperError
 from travelexhibition.core.dtos import GetArtifactDTO
@@ -32,9 +33,11 @@ class ArtifactController(Controller):
             ),
             DataMapperError: lambda request, exc: Response(
                 content={"error": "Bad request", "detail": str(exc)},
-                status_code=HTTP_400_BAD_REQUEST,
+                status_code=HTTP_503_SERVICE_UNAVAILABLE,
             ),
-        }
+        },
+        default_error_handler=log_error,
+        status_code=HTTP_200_OK,
     )
     @inject
     async def get_artifact(
