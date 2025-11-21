@@ -12,8 +12,7 @@ class EventType(Enum):
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class BaseDomainEvent:
-    event_id: UUID
-    event_type: str
+    event_type: EventType
     occurred_at: datetime
     aggregate_id: UUID
     aggregate_type: str = "artifact"
