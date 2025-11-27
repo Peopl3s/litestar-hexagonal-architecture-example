@@ -3,6 +3,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from travelexhibition.adapters.secondary.database.models import Artifact as ArtifactModel
 from travelexhibition.adapters.secondary.exceptions import SQLAlchemyReaderError, DataMapperError
+from travelexhibition.core.dtos import CreateArtifactDTO
 from travelexhibition.core.exceptions import DomainValidationError
 from travelexhibition.core.models import Artifact as ArtifactDM, ArtifactID
 from travelexhibition.ports.artifact_ports import ArtifactRepositoryPort
@@ -26,3 +27,7 @@ class ArtifactRepositoryAdapter(
             raise SQLAlchemyReaderError("Database query failed.") from err
         except DomainValidationError as err:
             raise DataMapperError("Data mapping failed.") from err
+
+    async def create_one(self, data: CreateArtifactDTO) -> ArtifactDM:
+        ...
+

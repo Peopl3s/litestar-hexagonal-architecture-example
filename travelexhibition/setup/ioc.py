@@ -4,11 +4,16 @@ from collections.abc import AsyncIterator, Iterable
 from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine, create_async_engine, async_sessionmaker
 from dishka import Provider, provide, Scope, from_context
 
+from travelexhibition.adapters.secondary.database.event_handlers import CreateArtifactHandler
 from travelexhibition.adapters.secondary.database.repositories import ArtifactRepositoryAdapter
 from travelexhibition.adapters.secondary.database.uow import SqlAlchemyUnitOfWork
+from travelexhibition.adapters.secondary.event_bus import EventBusAdapter
+from travelexhibition.core.events import EventType
+from travelexhibition.ports.broker_ports import MessageBrokerPublisherProtocol
+from travelexhibition.ports.event_bus import EventBusPort
 from travelexhibition.ports.uow_ports import UnitOfWork
 from travelexhibition.setup.config import PostgresConfig, SqlEngineConfig, AppConfig
-from travelexhibition.core.services import GetArtifactInteractor
+from travelexhibition.core.services import GetArtifactInteractor, CreateArtifactInteractor
 from travelexhibition.setup.logging import LoggingConfig
 from travelexhibition.ports.artifact_ports import ArtifactRepositoryPort
 
@@ -41,8 +46,28 @@ class ApplicationProvider(Provider):
         return GetArtifactInteractor(artifact_gateway=repository)
 
     @provide
+    def get_create_artifact_interactor(
+            self,
+            repository: ArtifactRepositoryPort,
+            event_bus: EventBusPort
+    ) -> CreateArtifactInteractor:
+        return CreateArtifactInteractor(artifact_gateway=repository, event_bus=event_bus)
+
+    @provide
     def get_artifact_repository(self, session: AsyncSession) -> ArtifactRepositoryPort:
         return ArtifactRepositoryAdapter(session=session)
+
+    @provide
+    def get_event_bus(self) -> EventBusPort:
+        event_bus = EventBusAdapter()
+        event_bus.subscribe(event_type=EventType.CREATED, handler=CreateArtifactHandler)
+        return event_bus
+
+    @provide
+    def get_create_artifact_handler(self, broker: MessageBrokerPublisherProtocol) -> CreateArtifactHandler:
+        return CreateArtifactHandler(broker=broker)
+
+    # TODO: add MessageBrokerPublisherProtocol
 
     tx_manager = provide(SqlAlchemyUnitOfWork, provides=UnitOfWork)
 
