@@ -9,7 +9,6 @@ class GetArtifactDTO:
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class CreateArtifactDTO:
-    artifact_id: UUID
     title: str
     model3d_url: str
     description: str | None = None

@@ -29,5 +29,23 @@ class ArtifactRepositoryAdapter(
             raise DataMapperError("Data mapping failed.") from err
 
     async def create_one(self, data: CreateArtifactDTO) -> ArtifactDM:
-        ...
+        try:
+            artifact_model = self.model_type(
+                title=data.title,
+                model3d_url=data.model3d_url,
+                description=data.description,
+            )
+
+            created_model = await self.add(artifact_model)
+
+            return ArtifactDM(
+                id=ArtifactID(value=created_model.id),
+                title=created_model.title,
+                model3d_url=created_model.model3d_url,
+                description=created_model.description,
+            )
+        except SQLAlchemyError as err:
+            raise SQLAlchemyReaderError("Failed to create artifact in database.") from err
+        except DomainValidationError as err:
+            raise DataMapperError("Data mapping failed during artifact creation.") from err
 
