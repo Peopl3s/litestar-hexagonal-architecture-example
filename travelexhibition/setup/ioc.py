@@ -4,6 +4,7 @@ from collections.abc import AsyncIterator, Iterable
 from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine, create_async_engine, async_sessionmaker
 from dishka import Provider, provide, Scope, from_context
 
+from travelexhibition.adapters.secondary.brokers import KafkaPublisher
 from travelexhibition.adapters.secondary.database.event_handlers import CreateArtifactHandler
 from travelexhibition.adapters.secondary.database.repositories import ArtifactRepositoryAdapter
 from travelexhibition.adapters.secondary.database.uow import SqlAlchemyUnitOfWork
@@ -67,9 +68,9 @@ class ApplicationProvider(Provider):
     def get_create_artifact_handler(self, broker: MessageBrokerPublisherProtocol) -> CreateArtifactHandler:
         return CreateArtifactHandler(broker=broker)
 
-    # TODO: add MessageBrokerPublisherProtocol
-
     tx_manager = provide(SqlAlchemyUnitOfWork, provides=UnitOfWork)
+
+    broker = provide(KafkaPublisher, provides=MessageBrokerPublisherProtocol)
 
 
 class PersistenceSqlProvider(Provider):
