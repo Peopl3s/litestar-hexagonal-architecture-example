@@ -1,5 +1,16 @@
 # :star2: Litestar Hexagonal Architecture Project Example
 
+[![Python 3.12+](https://img.shields.io/badge/Python-3.12+-000000?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)[![GitHub Stars](https://img.shields.io/github/stars/Peopl3s/litestar-hexagonal-architecture-example?style=for-the-badge&logo=github&logoColor=white&color=000000)](https://github.com/Peopl3s/litestar-hexagonal-architecture-example/stargazers)
+[![Last Commit](https://img.shields.io/github/last-commit/Peopl3s/litestar-hexagonal-architecture-example?style=for-the-badge&color=000000)](https://github.com/Peopl3s/litestar-hexagonal-architecture-example/commits/main)
+[![License](https://img.shields.io/github/license/Peopl3s/litestar-hexagonal-architecture-example?style=for-the-badge&color=000000)](./LICENSE)
+
+![Litestar](https://img.shields.io/badge/Litestar-000000?style=for-the-badge&logo=litestar&logoColor=white)
+![FastStream](https://img.shields.io/badge/FastStream-000000?style=for-the-badge&logo=faststream&logoColor=white)
+![Dishka](https://img.shields.io/badge/Dishka-000000?style=for-the-badge&logoColor=white)
+![Hexagonal Architecture](https://img.shields.io/badge/Hexagonal_Architecture-000000?style=for-the-badge&logoColor=white)
+--------
+
+
 💫 [Litestar Clean Acrhitecture Project Template](https://github.com/Peopl3s/clean-architecture-litestar-project-template)
 
 🔌 [FastAPI Clean Architecture Project Template](https://github.com/Peopl3s/clean-architecture-fastapi-project-template)
